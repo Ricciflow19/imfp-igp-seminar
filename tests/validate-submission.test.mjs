@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseSubmission, submissionStatus, validateSubmission } from '../scripts/validate-submission.mjs';
+import { buildSubmissions } from '../scripts/build-submissions.mjs';
 
 function bodyFor(overrides = {}) {
   const values = {
@@ -79,4 +80,26 @@ test('allows the published issue author to edit their own details', () => {
 test('rejects unsafe personal-page protocols', () => {
   const submission = parseSubmission(bodyFor({ website: 'javascript:alert(1)' }));
   assert.equal(validateSubmission(submission), false);
+});
+
+test('builds safe website data from published issues', () => {
+  const submissions = buildSubmissions([
+    { number: 12, url: 'https://github.com/example/issues/12', body: bodyFor() }
+  ]);
+
+  assert.equal(submissions.length, 1);
+  assert.equal(submissions[0].issueNumber, 12);
+  assert.equal(submissions[0].speaker, 'Ada Lovelace');
+  assert.equal(submissions[0].issueUrl, 'https://github.com/example/issues/12');
+});
+
+test('website data keeps the earliest issue if duplicate dates are present', () => {
+  const submissions = buildSubmissions([
+    { number: 14, url: 'https://github.com/example/issues/14', body: bodyFor({ speaker: 'Later Speaker' }) },
+    { number: 13, url: 'https://github.com/example/issues/13', body: bodyFor({ speaker: 'First Speaker' }) }
+  ]);
+
+  assert.equal(submissions.length, 1);
+  assert.equal(submissions[0].issueNumber, 13);
+  assert.equal(submissions[0].speaker, 'First Speaker');
 });

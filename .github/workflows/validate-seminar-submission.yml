@@ -2,25 +2,31 @@ name: Validate seminar submission
 
 on:
   issues:
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened, closed]
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   issues: write
+  pages: write
 
 concurrency:
   group: seminar-submission-validation
   cancel-in-progress: false
 
 jobs:
-  validate:
-    if: contains(github.event.issue.labels.*.name, 'talk-submission')
+  validate-and-sync:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.labels.*.name, 'talk-submission')
     runs-on: ubuntu-latest
     steps:
       - name: Check out validation code
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - name: Read currently published submissions
+        if: github.event_name == 'issues' && github.event.action != 'closed'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
@@ -33,6 +39,7 @@ jobs:
           > "$RUNNER_TEMP/published-submissions.json"
 
       - name: Validate this submission
+        if: github.event_name == 'issues' && github.event.action != 'closed'
         id: validation
         run: >-
           node scripts/validate-submission.mjs
@@ -50,7 +57,7 @@ jobs:
           gh issue edit "$ISSUE_URL" --remove-label submission-conflict || true
 
       - name: Confirm a new publication
-        if: steps.validation.outputs.status == 'accepted' && github.event.action != 'edited'
+        if: steps.validation.outputs.status == 'accepted' && github.event.action != 'edited' && github.event.action != 'closed'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
@@ -77,3 +84,42 @@ jobs:
           gh issue edit "$ISSUE_URL" --add-label submission-conflict
           gh issue edit "$ISSUE_URL" --remove-label seminar-published || true
           gh issue comment "$ISSUE_URL" --body "This submission could not be published automatically. Please check that the date exactly matches an available seminar date and that all required fields are complete."
+
+      - name: Read all open validated submissions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          gh issue list
+          --repo "$GITHUB_REPOSITORY"
+          --state open
+          --label seminar-published
+          --limit 100
+          --json number,body,url
+          > "$RUNNER_TEMP/open-published-submissions.json"
+
+      - name: Generate the website data file
+        run: >-
+          node scripts/build-submissions.mjs
+          "$RUNNER_TEMP/open-published-submissions.json"
+          data/submissions.json
+
+      - name: Commit updated website data
+        id: website-data
+        run: |
+          git add data/submissions.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Update published seminar submissions"
+            git pull --rebase origin main
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Request a GitHub Pages rebuild
+        if: steps.website-data.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds" > /dev/null

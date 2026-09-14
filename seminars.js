@@ -1,17 +1,8 @@
 'use strict';
 
 const SCHEDULE_URL = 'data/schedule.json';
-const SUBMISSIONS_API_URL = 'https://api.github.com/repos/Ricciflow19/imfp-igp-seminar/issues?state=open&labels=seminar-published&per_page=100';
+const SUBMISSIONS_URL = 'data/submissions.json';
 const SUBMISSION_FORM_URL = 'https://github.com/Ricciflow19/imfp-igp-seminar/issues/new';
-
-function readField(body, label) {
-  const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const match = body.match(new RegExp(`(?:^|\\n)###\\s+${escapedLabel}\\s*\\n+([\\s\\S]*?)(?=\\n###\\s+|$)`, 'i'));
-  if (!match) return '';
-
-  const value = match[1].trim();
-  return value === '_No response_' ? '' : value;
-}
 
 function safeWebsite(value) {
   if (!value) return '';
@@ -21,20 +12,6 @@ function safeWebsite(value) {
   } catch {
     return '';
   }
-}
-
-function parseSubmission(issue) {
-  const body = issue.body || '';
-  return {
-    issueNumber: issue.number,
-    issueUrl: issue.html_url,
-    date: readField(body, 'Seminar date'),
-    speaker: readField(body, 'Speaker name'),
-    institution: readField(body, 'Institution or affiliation'),
-    website: safeWebsite(readField(body, 'Personal or professional webpage')),
-    title: readField(body, 'Talk title'),
-    abstract: readField(body, 'Talk abstract')
-  };
 }
 
 function submissionFormUrl(date) {
@@ -112,9 +89,7 @@ function isCompleteSubmission(submission) {
 async function loadSchedule() {
   const [scheduleResponse, submissionsResponse] = await Promise.all([
     fetch(SCHEDULE_URL, { cache: 'no-cache' }),
-    fetch(SUBMISSIONS_API_URL, {
-      headers: { Accept: 'application/vnd.github+json' }
-    })
+    fetch(`${SUBMISSIONS_URL}?updated=${Date.now()}`, { cache: 'no-store' })
   ]);
 
   if (!scheduleResponse.ok || !submissionsResponse.ok) {
@@ -122,13 +97,13 @@ async function loadSchedule() {
   }
 
   const schedule = await scheduleResponse.json();
-  const issues = await submissionsResponse.json();
+  const submissions = await submissionsResponse.json();
   const scheduledDates = new Set(schedule.map((slot) => slot.display));
   const submissionsByDate = new Map();
 
-  issues
-    .sort((a, b) => a.number - b.number)
-    .map(parseSubmission)
+  submissions
+    .sort((a, b) => a.issueNumber - b.issueNumber)
+    .map((submission) => ({ ...submission, website: safeWebsite(submission.website) }))
     .filter((submission) => isCompleteSubmission(submission) && scheduledDates.has(submission.date))
     .forEach((submission) => {
       if (!submissionsByDate.has(submission.date)) {
