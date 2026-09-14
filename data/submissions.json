@@ -1,12 +1,1 @@
-[
-  {
-    "issueNumber": 2,
-    "issueUrl": "https://github.com/Ricciflow19/imfp-igp-seminar/issues/2",
-    "date": "December 31, 2026",
-    "speaker": "Automated Test Speaker",
-    "institution": "IMFP-IGP Seminar Test",
-    "website": "",
-    "title": "Same-origin publication test — please ignore",
-    "abstract": "This temporary submission verifies that the workflow writes validated data into the website itself. It will be closed immediately after validation."
-  }
-]
+[]
