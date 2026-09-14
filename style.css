@@ -151,6 +151,78 @@ form button:hover {
   background-color: rgb(5, 25, 60);
 }
 
+select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0.4rem 0 1rem;
+  padding: 0.7rem;
+  border: 1px solid #b8c1cc;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font: inherit;
+}
+
+.notice {
+  margin: 1rem 0 1.25rem;
+  padding: 0.8rem 1rem;
+  border-left: 4px solid #2f6fb0;
+  border-radius: 4px;
+  background: #eef6ff;
+}
+
+.notice p {
+  margin: 0.35rem 0;
+}
+
+.status-message {
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #8b1e1e;
+}
+
+.button-link {
+  display: inline-block;
+  margin: 0.5rem 0 1.25rem;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  background: rgb(7, 33, 82);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button-link:hover {
+  background: rgb(5, 25, 60);
+}
+
+.button-link.disabled {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.seminar-list .institution {
+  margin-top: -0.2rem;
+  color: #52606d;
+}
+
+.seminar-list .abstract {
+  white-space: pre-line;
+}
+
+.seminar-list .submission-actions {
+  margin-top: 0.9rem;
+  font-size: 0.9em;
+}
+
+.available-seminar {
+  border-left-color: #5d7896 !important;
+}
+
 footer {
   text-align: center;
   margin: 40px 0 10px;
@@ -215,7 +287,7 @@ footer {
   border-bottom: 1px solid #d5d5d5;
 }
 
-.seminar-list {
+.academic-year .seminar-list {
   padding: 0 1.25rem;
 }
 

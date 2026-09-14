@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +5,7 @@
   <title>IMFP-IGP Seminar — Upcoming Seminars</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
+  <script src="seminars.js" defer></script>
 </head>
 <body>
   <header>
@@ -15,7 +15,7 @@
       <a href="index.html">About</a>
       <a href="location.html">Location</a>
       <a href="organizers.html">Organizers</a>
-      <a href="upcoming.html">Upcoming Seminars</a>
+      <a href="upcoming.html" aria-current="page">Upcoming Seminars</a>
       <a href="past.html">Past Seminars</a>
     </nav>
   </header>
@@ -24,127 +24,18 @@
     <section id="seminars">
       <h2>Upcoming Seminars</h2>
 
+      <div class="notice">
+        <p><strong>Invited speakers:</strong> choose an available date and submit your name, affiliation, title, and abstract through the online form. Your talk will appear here automatically after a short validation check.</p>
+        <p>The submission uses a free GitHub account. Please do not include private information in the title or abstract, since published seminar details are public.</p>
+      </div>
+
       <p>All dates below are tentative until confirmed by the organizers.</p>
-      <p>Dear invited speakers, the registration procedure consists of two steps:</p>
+      <p id="schedule-status" class="status-message" role="status" aria-live="polite">Loading the current schedule…</p>
+      <ul id="seminar-list" class="seminar-list" aria-label="Upcoming seminar schedule"></ul>
 
-      <ol>
-        <li>Please click on one of the available dates below to reserve it.</li>
-        <li>Once your title and abstract are finalized, please click “here” in the corresponding box to submit them.</li>
-      </ol>
-
-      <ul class="seminar-list">
-        <li>
-          <p class="date"><a href="register.html?date=September+17,+2026">September 17, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=September+17,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=September+24,+2026">September 24, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=September+24,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=October+1,+2026">October 1, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=October+1,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=October+8,+2026">October 8, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=October+8,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=October+15,+2026">October 15, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=October+15,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=October+22,+2026">October 22, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=October+22,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=October+29,+2026">October 29, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=October+29,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=November+5,+2026">November 5, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=November+5,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=November+12,+2026">November 12, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=November+12,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=November+19,+2026">November 19, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=November+19,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=November+26,+2026">November 26, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=November+26,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=December+3,+2026">December 3, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=December+3,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=December+10,+2026">December 10, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=December+10,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=December+17,+2026">December 17, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=December+17,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=December+24,+2026">December 24, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=December+24,+2026"><strong>here</strong></a>.</p>
-        </li>
-
-        <li>
-          <p class="date"><a href="register.html?date=December+31,+2026">December 31, 2026</a></p>
-          <p class="author">Available slot</p>
-          <p class="title">To be announced</p>
-          <p class="abstract">Dear invited speaker, once your talk information is finalized, please submit your title and abstract <a href="submit-abstract.html?date=December+31,+2026"><strong>here</strong></a>.</p>
-        </li>
-      </ul>
+      <noscript>
+        <p class="error-message">JavaScript is required to load the live schedule. Please enable it or contact the organizers.</p>
+      </noscript>
     </section>
   </main>
 </body>

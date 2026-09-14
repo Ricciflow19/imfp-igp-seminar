@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>IMFP-IGP Seminar — Register</title>
+  <title>IMFP-IGP Seminar — Speaker Submission</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <img src="logo.png" alt="IMFP-IGP Logo" class="logo">
-    <h1>IMFP-IGP Seminar — Registration</h1>
+    <h1>IMFP-IGP Seminar</h1>
     <nav>
       <a href="index.html">About</a>
       <a href="location.html">Location</a>
@@ -21,36 +21,20 @@
 
   <main>
     <section id="register">
-      <h2>Register for a Seminar</h2>
-      <p>Dear invited speaker, please fill out the following form with your information. Your registration details will be sent directly to the organizers.</p>
-
-      <form action="https://formspree.io/f/xovnbeqw" method="POST">
-        <input type="hidden" name="_subject" value="IMFP-IGP Seminar Registration">
-        <input type="hidden" name="date" id="seminar-date" value="">
-
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required>
-
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="institution">Institution:</label>
-        <input type="text" id="institution" name="institution">
-
-        <button type="submit">Submit Registration</button>
-      </form>
+      <h2>Speaker Submission</h2>
+      <div class="notice">
+        <p>Registration and abstract submission are now combined into one self-service form. Your seminar information will be checked and published automatically.</p>
+      </div>
+      <a id="continue-link" class="button-link" href="submit-abstract.html">Continue to the submission form</a>
     </section>
   </main>
 
   <script>
-    // Récupère la date passée en paramètre d'URL
-    const params = new URLSearchParams(window.location.search);
-    const dateParam = params.get('date');
-    if(dateParam) {
-      document.getElementById('seminar-date').value = dateParam.replace(/\+/g, ' ');
+    const date = new URLSearchParams(window.location.search).get('date');
+    if (date) {
+      const url = new URL('submit-abstract.html', window.location.href);
+      url.searchParams.set('date', date);
+      document.getElementById('continue-link').href = url.toString();
     }
   </script>
 </body>

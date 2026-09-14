@@ -1,0 +1,71 @@
+name: Submit a seminar talk
+description: Reserve an available date and publish your title and abstract.
+title: "[Talk submission] "
+labels:
+  - talk-submission
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for speaking at the IMFP-IGP Seminar. The information below (except this instruction) will be displayed publicly after an automatic validation check.
+
+        Please choose a date that is currently marked **Available slot** on the seminar website. Do not include private contact information in this form.
+
+  - type: input
+    id: seminar-date
+    attributes:
+      label: Seminar date
+      description: Use the exact date shown on the Upcoming Seminars page, for example, September 17, 2026.
+      placeholder: Month D, 2026
+    validations:
+      required: true
+
+  - type: input
+    id: speaker-name
+    attributes:
+      label: Speaker name
+      placeholder: Full name
+    validations:
+      required: true
+
+  - type: input
+    id: institution
+    attributes:
+      label: Institution or affiliation
+      placeholder: University or institution
+    validations:
+      required: true
+
+  - type: input
+    id: personal-page
+    attributes:
+      label: Personal or professional webpage
+      description: Optional. Please include the full https:// address.
+      placeholder: https://example.edu/~speaker/
+    validations:
+      required: false
+
+  - type: textarea
+    id: talk-title
+    attributes:
+      label: Talk title
+      placeholder: Title of your talk
+    validations:
+      required: true
+
+  - type: textarea
+    id: talk-abstract
+    attributes:
+      label: Talk abstract
+      description: Plain text is preferred. Basic mathematical notation may be written in LaTeX.
+      placeholder: Please enter your abstract here.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I am an invited speaker (or am submitting with an organizer's permission), and I understand that these seminar details will be public.
+          required: true

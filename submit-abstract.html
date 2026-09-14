@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Submit Talk Abstract — IMFP-IGP Seminar</title>
+  <title>Submit Talk Details — IMFP-IGP Seminar</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -21,33 +21,78 @@
 
   <main>
     <section id="submit-abstract">
-      <h2>Dear invited speaker, please submit your talk abstract here. The organizers will upload it as soon as possible.</h2>
-      <p>Please fill out the form below.</p>
-      <form action="https://formspree.io/f/xgvlqago" method="POST">
-        <label for="date">Seminar Date</label>
-        <input type="text" id="date" name="Seminar Date" readonly>
+      <h2>Submit Your Talk Details</h2>
 
-        <label for="name">Your Name</label>
-        <input type="text" id="name" name="Name" placeholder="Full Name" required>
+      <div class="notice">
+        <p>This self-service form replaces the former email submission process. After you submit, your name, affiliation, title, and abstract will be published on the Upcoming Seminars page automatically.</p>
+        <p>You will be asked to sign in to a free GitHub account. This identifies the submitter, lets you edit your own talk later, and protects the schedule from anonymous spam.</p>
+      </div>
 
-        <label for="title">Talk Title</label>
-        <input type="text" id="title" name="Talk Title" placeholder="Title of your talk" required style="font-size:1.2em; padding:8px;">
+      <label for="submission-date">Seminar date</label>
+      <select id="submission-date" disabled>
+        <option>Loading available dates…</option>
+      </select>
 
-        <label for="abstract">Talk Abstract</label>
-        <textarea id="abstract" name="Talk Abstract" placeholder="Please enter your abstract here" rows="10" style="font-size:1.2em; padding:8px;" required></textarea>
+      <p id="submission-status" class="status-message" role="status" aria-live="polite"></p>
+      <a id="submission-link" class="button-link disabled" href="#" aria-disabled="true">Continue to the submission form</a>
 
-        <button type="submit">Submit Abstract</button>
-      </form>
+      <h3>What happens next?</h3>
+      <ol>
+        <li>Complete the short form and select <em>Submit new issue</em> on GitHub.</li>
+        <li>An automatic check confirms that the date is valid and still available.</li>
+        <li>Your seminar information appears on this website, usually within one minute.</li>
+      </ol>
+      <p>To revise your information, edit the GitHub submission linked from your seminar card. To withdraw, close that submission.</p>
     </section>
   </main>
 
   <script>
-    // Récupérer la date depuis l'URL et la mettre dans le formulaire
-    const urlParams = new URLSearchParams(window.location.search);
-    const dateParam = urlParams.get('date');
-    if(dateParam) {
-      document.getElementById('date').value = decodeURIComponent(dateParam.replace(/\+/g, ' '));
+    const scheduleUrl = 'data/schedule.json';
+    const repositoryFormUrl = 'https://github.com/Ricciflow19/imfp-igp-seminar/issues/new';
+    const dateSelect = document.getElementById('submission-date');
+    const submissionLink = document.getElementById('submission-link');
+    const status = document.getElementById('submission-status');
+
+    function updateSubmissionLink() {
+      const date = dateSelect.value;
+      if (!date) return;
+
+      const url = new URL(repositoryFormUrl);
+      url.searchParams.set('template', 'talk-submission.yml');
+      url.searchParams.set('title', `[Talk submission] ${date}`);
+      url.searchParams.set('seminar-date', date);
+      submissionLink.href = url.toString();
+      submissionLink.classList.remove('disabled');
+      submissionLink.removeAttribute('aria-disabled');
+      status.textContent = `Selected date: ${date}`;
     }
+
+    fetch(scheduleUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error('Schedule unavailable');
+        return response.json();
+      })
+      .then((schedule) => {
+        const requestedDate = new URLSearchParams(window.location.search).get('date');
+        dateSelect.textContent = '';
+
+        for (const slot of schedule) {
+          const option = document.createElement('option');
+          option.value = slot.display;
+          option.textContent = slot.display;
+          option.selected = slot.display === requestedDate;
+          dateSelect.append(option);
+        }
+
+        dateSelect.disabled = false;
+        dateSelect.addEventListener('change', updateSubmissionLink);
+        updateSubmissionLink();
+      })
+      .catch(() => {
+        dateSelect.innerHTML = '<option>Schedule temporarily unavailable</option>';
+        status.textContent = 'Please return to the Upcoming Seminars page and try again later.';
+        status.classList.add('error-message');
+      });
   </script>
 </body>
 </html>

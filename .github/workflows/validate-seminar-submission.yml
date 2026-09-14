@@ -1,0 +1,79 @@
+name: Validate seminar submission
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: seminar-submission-validation
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    if: contains(github.event.issue.labels.*.name, 'talk-submission')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out validation code
+        uses: actions/checkout@v4
+
+      - name: Read currently published submissions
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          gh issue list
+          --repo "$GITHUB_REPOSITORY"
+          --state open
+          --label seminar-published
+          --limit 100
+          --json number,body
+          > "$RUNNER_TEMP/published-submissions.json"
+
+      - name: Validate this submission
+        id: validation
+        run: >-
+          node scripts/validate-submission.mjs
+          "$GITHUB_EVENT_PATH"
+          "$RUNNER_TEMP/published-submissions.json"
+          >> "$GITHUB_OUTPUT"
+
+      - name: Publish a valid submission
+        if: steps.validation.outputs.status == 'accepted'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh issue edit "$ISSUE_URL" --add-label seminar-published
+          gh issue edit "$ISSUE_URL" --remove-label submission-conflict || true
+
+      - name: Confirm a new publication
+        if: steps.validation.outputs.status == 'accepted' && github.event.action != 'edited'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: >-
+          gh issue comment "$ISSUE_URL"
+          --body "Your submission passed the automatic check and will now appear on the Upcoming Seminars page. Edit this issue to update the published details, or close it to withdraw."
+
+      - name: Mark a conflicting submission
+        if: steps.validation.outputs.status == 'conflict'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh issue edit "$ISSUE_URL" --add-label submission-conflict
+          gh issue edit "$ISSUE_URL" --remove-label seminar-published || true
+          gh issue comment "$ISSUE_URL" --body "That seminar date is already assigned to another open submission. Please edit the Seminar date field and choose a date currently shown as available on the website."
+
+      - name: Mark an invalid submission
+        if: steps.validation.outputs.status == 'invalid'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh issue edit "$ISSUE_URL" --add-label submission-conflict
+          gh issue edit "$ISSUE_URL" --remove-label seminar-published || true
+          gh issue comment "$ISSUE_URL" --body "This submission could not be published automatically. Please check that the date exactly matches an available seminar date and that all required fields are complete."
