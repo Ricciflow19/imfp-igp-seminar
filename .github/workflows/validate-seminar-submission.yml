@@ -89,19 +89,22 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
-          gh issue list
-          --repo "$GITHUB_REPOSITORY"
-          --state open
-          --label seminar-published
-          --limit 100
-          --json number,body,url
+          gh api
+          --paginate
+          --slurp
+          "repos/$GITHUB_REPOSITORY/issues?state=open&labels=seminar-published&per_page=100"
+          --jq '[.[][] | {number, body, url: .html_url}]'
           > "$RUNNER_TEMP/open-published-submissions.json"
 
       - name: Generate the website data file
+        env:
+          CURRENT_STATUS: ${{ steps.validation.outputs.status }}
+          EVENT_ACTION: ${{ github.event.action }}
         run: >-
           node scripts/build-submissions.mjs
           "$RUNNER_TEMP/open-published-submissions.json"
           data/submissions.json
+          "$GITHUB_EVENT_PATH"
 
       - name: Commit updated website data
         id: website-data

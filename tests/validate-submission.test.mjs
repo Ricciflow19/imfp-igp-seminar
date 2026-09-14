@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { parseSubmission, submissionStatus, validateSubmission } from '../scripts/validate-submission.mjs';
-import { buildSubmissions } from '../scripts/build-submissions.mjs';
+import { buildSubmissions, mergeCurrentIssue } from '../scripts/build-submissions.mjs';
 
 function bodyFor(overrides = {}) {
   const values = {
@@ -102,4 +102,27 @@ test('website data keeps the earliest issue if duplicate dates are present', () 
   assert.equal(submissions.length, 1);
   assert.equal(submissions[0].issueNumber, 13);
   assert.equal(submissions[0].speaker, 'First Speaker');
+});
+
+test('merges an accepted current issue without waiting for the label index', () => {
+  const merged = mergeCurrentIssue([], {
+    issue: {
+      number: 20,
+      html_url: 'https://github.com/example/issues/20',
+      state: 'open',
+      body: bodyFor()
+    }
+  }, 'accepted', 'opened');
+
+  assert.equal(merged.length, 1);
+  assert.equal(merged[0].number, 20);
+});
+
+test('removes the current issue after closure or a validation conflict', () => {
+  const issues = [{ number: 20, url: 'https://github.com/example/issues/20', body: bodyFor() }];
+  const closedEvent = { issue: { number: 20, state: 'closed', body: bodyFor() } };
+  const conflictEvent = { issue: { number: 20, state: 'open', body: bodyFor() } };
+
+  assert.deepEqual(mergeCurrentIssue(issues, closedEvent, '', 'closed'), []);
+  assert.deepEqual(mergeCurrentIssue(issues, conflictEvent, 'conflict', 'edited'), []);
 });
