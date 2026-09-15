@@ -1,6 +1,6 @@
 name: Submit a seminar talk
 description: Reserve an available date and publish your title and abstract.
-title: "[Talk submission] "
+title: "Seminar booking record (leave unchanged)"
 labels:
   - talk-submission
 body:
@@ -10,6 +10,10 @@ body:
         Thank you for speaking at the IMFP-IGP Seminar. The information below (except this instruction) will be displayed publicly after an automatic validation check.
 
         Please choose a date that is currently marked **Available slot** on the seminar website. Do not include private contact information in this form.
+
+        **About “Add a title” above:** GitHub requires a title for this submission record. It is pre-filled for you and is **not** the title shown on the seminar website. Please leave it as it is. Enter your actual presentation title in **Talk title** below.
+
+        If you need to correct anything later, edit the description of this same GitHub issue. The website will update automatically; you do not need to submit a second issue.
 
   - type: input
     id: seminar-date
@@ -40,7 +44,7 @@ body:
     id: personal-page
     attributes:
       label: Personal or professional webpage
-      description: Optional. Please include the full https:// address.
+      description: Optional. Enter only a full http:// or https:// URL; leave this blank if you do not have one. Do not put your talk title here.
       placeholder: https://example.edu/~speaker/
     validations:
       required: false
@@ -49,7 +53,8 @@ body:
     id: talk-title
     attributes:
       label: Talk title
-      placeholder: Title of your talk
+      description: This is the presentation title that appears on the seminar website; the GitHub issue title above is only a booking label.
+      placeholder: Title of your talk (LaTeX math is welcome)
     validations:
       required: true
 
@@ -57,7 +62,7 @@ body:
     id: talk-abstract
     attributes:
       label: Talk abstract
-      description: Plain text is preferred. Basic mathematical notation may be written in LaTeX.
+      description: Use $...$ or \(...\) for inline LaTeX math and $$...$$ or \[...\] for display math. The website will typeset these formulas automatically.
       placeholder: Please enter your abstract here.
     validations:
       required: true

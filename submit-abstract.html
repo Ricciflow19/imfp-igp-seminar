@@ -42,7 +42,7 @@
         <li>An automatic check confirms that the date is valid and still available.</li>
         <li>Your seminar information appears on this website, usually within one minute.</li>
       </ol>
-      <p>To revise your information, edit the GitHub submission linked from your seminar card. To withdraw, close that submission.</p>
+      <p>GitHub's “Add a title” is only a pre-filled booking label, not your presentation title. Enter the presentation title in the <strong>Talk title</strong> field. To revise your information, edit the description of the same GitHub submission linked from your seminar card; do not open a second issue. To withdraw, close that submission.</p>
     </section>
   </main>
 
@@ -59,7 +59,7 @@
 
       const url = new URL(repositoryFormUrl);
       url.searchParams.set('template', 'talk-submission.yml');
-      url.searchParams.set('title', `[Talk submission] ${date}`);
+      url.searchParams.set('title', `Seminar booking record — ${date} (not the talk title)`);
       url.searchParams.set('seminar-date', date);
       submissionLink.href = url.toString();
       submissionLink.classList.remove('disabled');

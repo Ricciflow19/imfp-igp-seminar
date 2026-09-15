@@ -35,14 +35,18 @@ function validWebsite(value) {
   }
 }
 
+export function submissionValidationError(submission) {
+  if (!allowedDates.has(submission.date)) return 'The Seminar date must exactly match a date on the Upcoming Seminars page.';
+  if (!submission.speaker || submission.speaker.length > 120) return 'Speaker name is required and must be at most 120 characters.';
+  if (!submission.institution || submission.institution.length > 200) return 'Institution or affiliation is required and must be at most 200 characters.';
+  if (!submission.title || submission.title.length > 300) return 'Talk title is required and must be at most 300 characters.';
+  if (!submission.abstract || submission.abstract.length > 8000) return 'Talk abstract is required and must be at most 8000 characters.';
+  if (submission.website.length > 500 || !validWebsite(submission.website)) return 'Personal or professional webpage must be a full http:// or https:// URL, or be left blank. Do not put the talk title in that field.';
+  return '';
+}
+
 export function validateSubmission(submission) {
-  if (!allowedDates.has(submission.date)) return false;
-  if (!submission.speaker || submission.speaker.length > 120) return false;
-  if (!submission.institution || submission.institution.length > 200) return false;
-  if (!submission.title || submission.title.length > 300) return false;
-  if (!submission.abstract || submission.abstract.length > 8000) return false;
-  if (submission.website.length > 500 || !validWebsite(submission.website)) return false;
-  return true;
+  return !submissionValidationError(submission);
 }
 
 export function submissionStatus(issue, publishedIssues) {
@@ -65,7 +69,9 @@ function run() {
 
   const event = JSON.parse(fs.readFileSync(eventPath, 'utf8'));
   const publishedIssues = JSON.parse(fs.readFileSync(publishedIssuesPath, 'utf8'));
+  const submission = parseSubmission(event.issue.body);
   process.stdout.write(`status=${submissionStatus(event.issue, publishedIssues)}\n`);
+  process.stdout.write(`reason=${submissionValidationError(submission)}\n`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

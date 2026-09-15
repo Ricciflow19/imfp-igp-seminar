@@ -5,7 +5,9 @@
   <title>IMFP-IGP Seminar — Upcoming Seminars</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <script src="seminars.js?v=20260914-2" defer></script>
+  <script src="mathjax-config.js?v=20260915-1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-svg.js" integrity="sha384-2RFDbzHin3XKGJQxMfH2AB1os+J9s93mzjEr9Pna+BhAEkeJJIfv5g82fdsqe5sz" crossorigin="anonymous" defer></script>
+  <script src="seminars.js?v=20260915-1" defer></script>
 </head>
 <body>
   <header>
@@ -27,9 +29,12 @@
       <div class="notice">
         <p><strong>Invited speakers:</strong> choose an available date and submit your name, affiliation, title, and abstract through the online form. Your talk will appear here automatically after a short validation check.</p>
         <p>The submission uses a free GitHub account. Please do not include private information in the title or abstract, since published seminar details are public.</p>
+        <p>The GitHub form's “Add a title” is only a pre-filled submission-record label. Your presentation title belongs in the <strong>Talk title</strong> field. To correct a submission, edit the same GitHub issue; the website will update automatically.</p>
+        <p>LaTeX math is supported in talk titles and abstracts: use <code>$...$</code> or <code>\(...\)</code> inline, and <code>$$...$$</code> or <code>\[...\]</code> for displayed equations.</p>
       </div>
 
       <p>All dates below are tentative until confirmed by the organizers.</p>
+      <button id="schedule-refresh" class="refresh-button" type="button">Refresh schedule now</button>
       <p id="schedule-status" class="status-message" role="status" aria-live="polite">Loading the current schedule…</p>
       <ul id="seminar-list" class="seminar-list" aria-label="Upcoming seminar schedule"></ul>
 

@@ -63,7 +63,7 @@ jobs:
           ISSUE_URL: ${{ github.event.issue.html_url }}
         run: >-
           gh issue comment "$ISSUE_URL"
-          --body "Your submission passed the automatic check and will now appear on the Upcoming Seminars page. Edit this issue to update the published details, or close it to withdraw."
+          --body "Your submission passed the automatic check and will now appear on the Upcoming Seminars page. To correct the published details, edit this issue's description (especially the Talk title or Talk abstract fields), not its GitHub issue title. Close this issue to withdraw."
 
       - name: Mark a conflicting submission
         if: steps.validation.outputs.status == 'conflict'
@@ -73,17 +73,18 @@ jobs:
         run: |
           gh issue edit "$ISSUE_URL" --add-label submission-conflict
           gh issue edit "$ISSUE_URL" --remove-label seminar-published || true
-          gh issue comment "$ISSUE_URL" --body "That seminar date is already assigned to another open submission. Please edit the Seminar date field and choose a date currently shown as available on the website."
+          gh issue comment "$ISSUE_URL" --body "That seminar date is already assigned to another open submission. Please edit this same issue's Seminar date field and choose a date currently shown as available on the website; you do not need to open a second issue."
 
       - name: Mark an invalid submission
         if: steps.validation.outputs.status == 'invalid'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
+          VALIDATION_REASON: ${{ steps.validation.outputs.reason }}
         run: |
           gh issue edit "$ISSUE_URL" --add-label submission-conflict
           gh issue edit "$ISSUE_URL" --remove-label seminar-published || true
-          gh issue comment "$ISSUE_URL" --body "This submission could not be published automatically. Please check that the date exactly matches an available seminar date and that all required fields are complete."
+          gh issue comment "$ISSUE_URL" --body "This submission could not be published automatically. $VALIDATION_REASON Edit this same GitHub issue to correct it; you do not need to open a second issue."
 
       - name: Read all open validated submissions
         env:

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parseSubmission, submissionStatus, validateSubmission } from '../scripts/validate-submission.mjs';
+import { parseSubmission, submissionStatus, submissionValidationError, validateSubmission } from '../scripts/validate-submission.mjs';
 import { buildSubmissions, mergeCurrentIssue } from '../scripts/build-submissions.mjs';
 
 function bodyFor(overrides = {}) {
@@ -94,6 +94,13 @@ test('allows the published issue author to edit their own details', () => {
 test('rejects unsafe personal-page protocols', () => {
   const submission = parseSubmission(bodyFor({ website: 'javascript:alert(1)' }));
   assert.equal(validateSubmission(submission), false);
+  assert.match(submissionValidationError(submission), /http:\/\/ or https:\/\//);
+});
+
+test('explains when a talk title is mistakenly entered as a personal webpage', () => {
+  const submission = parseSubmission(bodyFor({ website: 'A Mathematical Talk' }));
+  assert.equal(validateSubmission(submission), false);
+  assert.match(submissionValidationError(submission), /Do not put the talk title/);
 });
 
 test('builds safe website data from published issues', () => {

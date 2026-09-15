@@ -3,6 +3,12 @@
 const SCHEDULE_URL = 'data/schedule.json';
 const SUBMISSIONS_URL = 'data/submissions.json';
 const SUBMISSION_FORM_URL = 'https://github.com/Ricciflow19/imfp-igp-seminar/issues/new';
+const REFRESH_INTERVAL_MS = 60_000;
+
+let lastScheduleSignature = '';
+let hasLoadedSchedule = false;
+let refreshInProgress = false;
+let mathRenderPromise = Promise.resolve();
 
 function safeWebsite(value) {
   if (!value) return '';
@@ -17,7 +23,7 @@ function safeWebsite(value) {
 function submissionFormUrl(date) {
   const url = new URL(SUBMISSION_FORM_URL);
   url.searchParams.set('template', 'talk-submission.yml');
-  url.searchParams.set('title', `[Talk submission] ${date}`);
+  url.searchParams.set('title', `Seminar booking record — ${date} (not the talk title)`);
   url.searchParams.set('seminar-date', date);
   return url.toString();
 }
@@ -86,6 +92,19 @@ function isCompleteSubmission(submission) {
   return Boolean(submission.date && submission.speaker && submission.title && submission.abstract);
 }
 
+function typesetSchedule(list) {
+  const mathJax = window.MathJax;
+  if (!mathJax?.typesetPromise) return;
+
+  mathRenderPromise = mathRenderPromise
+    .catch(() => {})
+    .then(() => mathJax.startup?.promise)
+    .then(() => mathJax.typesetPromise([list]))
+    .catch(() => {
+      // A failed math render must not hide the seminar itself.
+    });
+}
+
 async function loadSchedule() {
   const [scheduleResponse, submissionsResponse] = await Promise.all([
     fetch(SCHEDULE_URL, { cache: 'no-cache' }),
@@ -98,6 +117,7 @@ async function loadSchedule() {
 
   const schedule = await scheduleResponse.json();
   const submissions = await submissionsResponse.json();
+  const signature = JSON.stringify([schedule, submissions]);
   const scheduledDates = new Set(schedule.map((slot) => slot.display));
   const submissionsByDate = new Map();
 
@@ -111,22 +131,56 @@ async function loadSchedule() {
       }
     });
 
-  const list = document.getElementById('seminar-list');
-  const fragment = document.createDocumentFragment();
-  for (const slot of schedule) {
-    const submission = submissionsByDate.get(slot.display);
-    fragment.append(submission ? createScheduledCard(slot, submission) : createAvailableCard(slot));
+  if (signature !== lastScheduleSignature) {
+    const list = document.getElementById('seminar-list');
+    const fragment = document.createDocumentFragment();
+    for (const slot of schedule) {
+      const submission = submissionsByDate.get(slot.display);
+      fragment.append(submission ? createScheduledCard(slot, submission) : createAvailableCard(slot));
+    }
+
+    await mathRenderPromise;
+    window.MathJax?.typesetClear?.([list]);
+    list.replaceChildren(fragment);
+    lastScheduleSignature = signature;
+    typesetSchedule(list);
   }
-  list.replaceChildren(fragment);
 
   const status = document.getElementById('schedule-status');
+  status.classList.remove('error-message');
   status.textContent = submissionsByDate.size
     ? `${submissionsByDate.size} seminar${submissionsByDate.size === 1 ? '' : 's'} currently scheduled.`
     : 'All listed dates are currently available.';
 }
 
-loadSchedule().catch(() => {
+async function refreshSchedule(announce = false) {
+  if (refreshInProgress) return;
+  refreshInProgress = true;
+  const button = document.getElementById('schedule-refresh');
   const status = document.getElementById('schedule-status');
-  status.textContent = 'The live schedule is temporarily unavailable. Please try again shortly.';
-  status.classList.add('error-message');
+  button.disabled = true;
+  if (announce) status.textContent = 'Checking for schedule updates…';
+
+  try {
+    await loadSchedule();
+    hasLoadedSchedule = true;
+  } catch {
+    status.textContent = hasLoadedSchedule
+      ? 'Could not check for updates. The last loaded schedule remains visible.'
+      : 'The live schedule is temporarily unavailable. Please try again shortly.';
+    status.classList.add('error-message');
+  } finally {
+    button.disabled = false;
+    refreshInProgress = false;
+  }
+}
+
+document.getElementById('schedule-refresh').addEventListener('click', () => refreshSchedule(true));
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) refreshSchedule();
 });
+window.setInterval(() => {
+  if (!document.hidden) refreshSchedule();
+}, REFRESH_INTERVAL_MS);
+
+refreshSchedule();
