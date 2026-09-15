@@ -15,8 +15,8 @@ body:
     id: seminar-date
     attributes:
       label: Seminar date
-      description: Use the exact date shown on the Upcoming Seminars page, for example, September 17, 2026.
-      placeholder: Month D, 2026
+      description: Use the exact date shown on the Upcoming Seminars page, for example, September 24, 2026.
+      placeholder: Month D, YYYY
     validations:
       required: true
 

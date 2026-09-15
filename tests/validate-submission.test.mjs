@@ -5,7 +5,7 @@ import { buildSubmissions, mergeCurrentIssue } from '../scripts/build-submission
 
 function bodyFor(overrides = {}) {
   const values = {
-    date: 'September 17, 2026',
+    date: 'September 24, 2026',
     speaker: 'Ada Lovelace',
     institution: 'Example University',
     website: 'https://example.edu/ada',
@@ -45,7 +45,7 @@ ${values.abstract}
 
 test('parses all public fields from a GitHub issue form body', () => {
   assert.deepEqual(parseSubmission(bodyFor()), {
-    date: 'September 17, 2026',
+    date: 'September 24, 2026',
     speaker: 'Ada Lovelace',
     institution: 'Example University',
     website: 'https://example.edu/ada',
@@ -63,6 +63,20 @@ test('accepts a complete submission for a listed date', () => {
 test('rejects dates not present in the public schedule', () => {
   const issue = { number: 10, body: bodyFor({ date: 'January 1, 2027' }) };
   assert.equal(submissionStatus(issue, []), 'invalid');
+});
+
+test('rejects cancelled September 17 and October 1 slots', () => {
+  for (const date of ['September 17, 2026', 'October 1, 2026']) {
+    const issue = { number: 10, body: bodyFor({ date }) };
+    assert.equal(submissionStatus(issue, []), 'invalid');
+  }
+});
+
+test('accepts the three January 2027 slots', () => {
+  for (const date of ['January 7, 2027', 'January 14, 2027', 'January 21, 2027']) {
+    const issue = { number: 10, body: bodyFor({ date }) };
+    assert.equal(submissionStatus(issue, []), 'accepted');
+  }
 });
 
 test('detects a date already held by a different published issue', () => {
