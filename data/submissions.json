@@ -8,5 +8,15 @@
     "website": "https://sites.google.com/view/tianyilou/homepage",
     "title": "Property \\(P_{\\mathrm{naive}}\\) for Big Mapping Class Groups",
     "abstract": "Mapping class groups of finite-type surfaces are well understood and exhibit rich dynamics. In contrast, mapping class groups of infinite-type surfaces (big mapping class groups) are less explored and often fall outside standard frameworks. Abbott-Dahmani showed that acylindrically hyperbolic groups (without non-trivial finite normal subgroups) satisfy property \\(P_{\\mathrm{naive}}\\). But for an infinite-type surface \\(S\\), \\(\\mathrm{Map}(S)\\) is not acylindrically hyperbolic, so that result cannot be applied. Assuming that \\(S\\) contains a nondisplaceable finite-type subsurface, Horbez-Qing-Rafi construct a continuous nonelementary action of \\(\\mathrm{Map}(S)\\) on a hyperbolic quasi-tree of curve graphs. We use this action to prove that \\(\\mathrm{Map}(S)\\) has \\(P_{\\mathrm{naive}}\\) for orientable \\(S\\) and non-orientable \\(S\\): for any finite collection of non-trivial elements \\(h_1,\\dots,h_n\\), there exists an infinite-order element \\(g\\neq 1\\) such that \\(\\langle g,h_i\\rangle \\cong \\langle g\\rangle * \\langle h_i\\rangle\\) for all \\(i\\)."
+  },
+  {
+    "issueNumber": 5,
+    "issueUrl": "https://github.com/Ricciflow19/imfp-igp-seminar/issues/5",
+    "date": "December 3, 2026",
+    "speaker": "Hanfei Guo",
+    "institution": "Tongji University",
+    "website": "",
+    "title": "TBA",
+    "abstract": "TBA"
   }
 ]
