@@ -16,8 +16,8 @@
     "speaker": "Xueqing Wen",
     "institution": "Chongqing University of Technology",
     "website": "",
-    "title": "TBA",
-    "abstract": "TBA"
+    "title": "Multiplicativity of the perverse filtration for SL_n Hitchin systems",
+    "abstract": "The Hitchin fibration equips the cohomology of Higgs bundle moduli spaces with a perverse filtration. The P=W conjecture predicts that this filtration is compatible with cup product, a property that does not hold for general projective morphisms. In this talk, I will present a proof of multiplicativity for the canonical SL_n Hitchin system in arbitrary rank, over a smooth projective complex curve of genus at least two, with fixed determinant of degree coprime to the rank. I will begin by reviewing the Fourier-transform approach of Maulik–Shen–Yin to the perverse filtration for compactified Jacobian fibrations. I will then explain how to adapt this approach to compactified Pryms, highlighting the new ingredients required in the SL_n setting. Two difficulties arise: the dual fibration is naturally a quotient stack, and the Hitchin direct image has contributions supported on proper endoscopic loci. Addressing these requires a Fourier-correspondence formalism for quotient stacks and a comparison between Fourier projectors and the endoscopic correspondence. This comparison replaces the full-support argument in the compactified Jacobian case and identifies the Fourier filtration with the perverse filtration over the elliptic locus of an auxiliary twisted Hitchin system."
   },
   {
     "issueNumber": 7,
