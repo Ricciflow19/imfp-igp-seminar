@@ -26,8 +26,8 @@
     "speaker": "Shihang He",
     "institution": "Peking University",
     "website": "",
-    "title": "TAB",
-    "abstract": "TAB"
+    "title": "Singularity blow up method and positive mass theorem",
+    "abstract": "The Schoen-Yau minimal hypersurface approach to the positive mass theorem faces difficulties in high dimensions due to the presence of singularities. In this talk, I will introduce a singularity blow-up method that allows us to overcome some of these difficulties. This method leads to a proof of the Riemannian positive mass theorem in dimension 8. By combining it with torical symmetrization and generic regularity theory, we further extend the theorem to dimension 19. This is joint work with Yuguang Shi, Haobin Yu, and joint work with Yuchen Bi, Tianze Hao, Yuguang Shi, and Jintian Zhu."
   },
   {
     "issueNumber": 8,
