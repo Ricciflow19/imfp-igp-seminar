@@ -94,9 +94,9 @@
     "issueUrl": "https://github.com/Ricciflow19/imfp-igp-seminar/issues/14",
     "date": "October 29, 2026",
     "speaker": "Carlos Esparza",
-    "institution": "IMFP",
+    "institution": "C.N. Yang Institute",
     "website": "",
-    "title": "TBD",
-    "abstract": "TBD"
+    "title": "Uniqueness and K-polystability of Kähler--Ricci shrinkers",
+    "abstract": "I will talk about recent results concerning the geometry of Kähler&ndash;Ricci shrinkers. These shed some light on the relation between the metric geometry of the shrinker metric and the algebraic geometry of the underlying manifold. This makes it possible to define geodesics in a space of quadratic growth Kähler potentials. Thus we can show that a shrinker metric is unique on a fixed complex manifold, and its existence requires the underlying manifold to be K-polystable. Based on joint work with Junsheng Zhang."
   }
 ]
