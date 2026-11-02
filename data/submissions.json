@@ -86,8 +86,8 @@
     "speaker": "Runze Zhang",
     "institution": "The Chinese University of Hong Kong",
     "website": "https://sites.google.com/view/runzezhang",
-    "title": "TBA",
-    "abstract": "TBA"
+    "title": "The Kuranishi space of joint deformations of Calabi--Yau manifolds & holomorphic vector bundles",
+    "abstract": "We will talk about the joint deformations of pairs (X, E), where X is a compact complex manifold and  E -> X is a holomorphic vector bundle. We show that (X, E) has unobstructed deformations if X is a Fujiki manifold with torsion canonical bundle and H²(X, End⁰E)=0, where End⁰E denotes the trace-free endomorphism bundle. This provides non-non-Kähler extensions of the theorems of Li--Pan and Iacono--Manetti.\n\nWithout this vanishing assumption, we obtain both unobstructed and obstructed pairs. In Thomas's example, we prove unobstructedness of the pair, although the bundle has obstructed deformations with the manifold fixed. On the other hand, we prove that every strict projective Calabi--Yau manifold of dimension at least three admits a simple bundle with obstructed joint deformations. We also construct obstructed pairs with Hermitian flat bundles on complex tori. These results answer two questions raised by Felten. This talk is based on [arXiv:2610.08776](https://arxiv.org/abs/2610.08776)."
   },
   {
     "issueNumber": 14,
