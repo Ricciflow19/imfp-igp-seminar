@@ -76,8 +76,8 @@
     "speaker": "Yuanyuan Li",
     "institution": "Westlake University",
     "website": "",
-    "title": "Global $$C^{2,\\alpha}$$ regularity for optimal transport under A3s condition",
-    "abstract": "In this talk, I will present a global regularity result for the second boundary value problem in optimal transport. Let $$c\\in C^{4,\\alpha}$$ satisfy the standard twist and nondegeneracy assumptions, together with the A3s condition. Assume that the domains are mutually uniformly c-convex $$C^{4,\\alpha}$$, and the densities are positive and belong to $$C^{\\alpha}$$. Then we obtain the global $$C^{2,\\alpha}$$ regularity of potential functions."
+    "title": "Global $C^{2,\\alpha}$ regularity for optimal transport under A3s condition",
+    "abstract": "In this talk, I will present a global regularity result for the second boundary value problem in optimal transport. Let $c\\in C^{4,\\alpha}$ satisfy the standard twist and nondegeneracy assumptions, together with the A3s condition. Assume that the domains are mutually uniformly c-convex $C^{4,\\alpha}$, and the densities are positive and belong to $C^{\\alpha}$. Then we obtain the global $C^{2,\\alpha}$ regularity of potential functions."
   },
   {
     "issueNumber": 13,
