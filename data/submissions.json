@@ -98,5 +98,15 @@
     "website": "",
     "title": "Uniqueness and K-polystability of Kähler--Ricci shrinkers",
     "abstract": "I will talk about recent results concerning the geometry of shrinking gradient  Kähler--Ricci solitons, which relate the metric geometry of the shrinker metric and the algebraic geometry of the underlying manifold. This makes it possible to define geodesics in a space of quadratic growth Kähler potentials. Thus we can show that a shrinker metric is unique on a fixed complex manifold, and its existence requires the underlying manifold to be K-polystable. Based on joint work with Junsheng Zhang."
+  },
+  {
+    "issueNumber": 16,
+    "issueUrl": "https://github.com/Ricciflow19/imfp-igp-seminar/issues/16",
+    "date": "December 9, 2026",
+    "speaker": "Yaxiong Liu",
+    "institution": "Chongqing University of Technology",
+    "website": "https://yaxiongliu23.github.io/",
+    "title": "The inverse Monge--Ampère flow on klt Fano varieties",
+    "abstract": "On smooth Fano manifolds, Collins--Hisamoto--Takahashi studied the inverse MA flow, which is the gradient flow of Ding functional, and proved the long-time existence and convergence. We develop the inverse MA flow on a klt Fano variety. By establishing the uniform estimates of the flow, we prove the long-time existence of the flow on a klt Fano variety. Uniqueness and convergence are established using the Mayer–Streets theory of negative gradient flows. This is a joint work with Jianchun Chu and Tamas Darvas."
   }
 ]
