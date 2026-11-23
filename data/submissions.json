@@ -56,8 +56,8 @@
     "speaker": "Hanfei Guo",
     "institution": "Tongji University",
     "website": "",
-    "title": "TBA",
-    "abstract": "TBA"
+    "title": "Derived Torelli for Kuznetsov Components of Cubic Fourfolds",
+    "abstract": "The derived Torelli theorem of Mukai and Orlov states that two projective K3 surfaces are derived equivalent if and only if their Mukai lattices are Hodge isometric. We prove the derived Torelli theorem for Kuznetsov components of cubic fourfolds, answering a question of Huybrechts. We will explain how Markman--Mehrotra’s comonad reconstruction recovers both components from a common Fourier–Mukai comonad on a moduli space of stable objects. This is joint work with Ruxuan Zhang."
   },
   {
     "issueNumber": 11,
